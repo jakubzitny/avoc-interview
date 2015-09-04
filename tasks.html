@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+
+<link rel="stylesheet" href="./screen.css">
+
+<body>
+<div class="app-brand">To-Do App</div>
+
+<div class="user-info">
+  <span class="user-info__name">Test User</span>
+</div>
+
+<div class="app-content">
+  <form class="new-task-form">
+    <input class="text-input new-task-form__label-input" type="text" name="label" placeholder="Label…">
+    <button class="button new-task-form__submit-button" type="submit">Add Task</button>
+  </form>
+
+  <ul class="task-list">
+    <li class="task-list__item">
+      <div class="task">
+        <input class="task__completed-checkbox" type="checkbox">
+        <span class="task__label">Task 1</span>
+        <span class="task__delete-button" title="Delete"></span>
+      </div>
+    </li>
+    <li class="task-list__item">
+      <div class="task">
+        <input class="task__completed-checkbox" type="checkbox" checked>
+        <span class="task__label">Task 2</span>
+        <span class="task__delete-button" title="Delete"></span>
+      </div>
+    </li>
+    <li class="task-list__item">
+      <div class="task">
+        <input class="task__completed-checkbox" type="checkbox">
+        <span class="task__label">Task 3</span>
+        <span class="task__delete-button" title="Delete"></span>
+      </div>
+      <ul class="subtask-list">
+        <li class="task-list__item">
+          <div class="task">
+            <input class="task__completed-checkbox" type="checkbox">
+            <span class="task__label">Subtask 1</span>
+            <span class="task__delete-button" title="Delete"></span>
+          </div>
+        </li>
+        <li class="task-list__item">
+          <div class="task">
+            <input class="task__completed-checkbox" type="checkbox" checked>
+            <span class="task__label">Subtask 2</span>
+            <span class="task__delete-button" title="Delete"></span>
+          </div>
+        </li>
+      </ul>
+    </li>
+    <li class="task-list__item">
+      <div class="task">
+        <input class="task__completed-checkbox" type="checkbox" checked>
+        <span class="task__label">Task 4</span>
+        <span class="task__delete-button" title="Delete"></span>
+      </div>
+      <ul class="subtask-list">
+        <li class="task-list__item">
+          <div class="task">
+            <input class="task__completed-checkbox" type="checkbox">
+            <span class="task__label">Subtask 3</span>
+            <span class="task__delete-button" title="Delete"></span>
+          </div>
+        </li>
+        <li class="task-list__item">
+          <div class="task">
+            <input class="task__completed-checkbox" type="checkbox" checked>
+            <span class="task__label">Subtask 4</span>
+            <span class="task__delete-button" title="Delete"></span>
+          </div>
+        </li>
+      </ul>
+    </li>
+    <li class="task-list__item">
+      <div class="task">
+        <input class="task__completed-checkbox" type="checkbox">
+        <span class="task__label">Task 3</span>
+        <span class="task__delete-button" title="Delete"></span>
+      </div>
+      <ul class="subtask-list">
+        <li class="task-list__item">
+          <div class="task">
+            <input class="task__completed-checkbox" type="checkbox">
+            <span class="task__label">Subtask 1</span>
+            <span class="task__delete-button" title="Delete"></span>
+          </div>
+          <ul class="subtask-list">
+            <li class="task-list__item">
+              <div class="task">
+                <input class="task__completed-checkbox" type="checkbox">
+                <span class="task__label">Third-level Task 1</span>
+                <span class="task__delete-button" title="Delete"></span>
+              </div>
+            </li>
+            <li class="task-list__item">
+              <div class="task">
+                <input class="task__completed-checkbox" type="checkbox" checked>
+                <span class="task__label">Third-level Task 2</span>
+                <span class="task__delete-button" title="Delete"></span>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
