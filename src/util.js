@@ -87,6 +87,17 @@ var Util = (function() {
  		// thx to http://stackoverflow.com/a/6299743/1893452
 		range: function(i) {
 			return i ? this.range(i-1).concat(i) : [ ]
+		},
+
+		// TODO: comment
+		isTaskReallyCompleted: function (task) {
+			if (task.completed) {
+				for (subtaskNo in task.subtasks) {
+					if (!this.isTaskReallyCompleted(task.subtasks[subtaskNo])) return false;
+				}
+				return true;
+			}
+			return false;
 		}
 	};
 

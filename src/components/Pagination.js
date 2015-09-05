@@ -18,10 +18,10 @@ var Pagination = React.createClass({
 
 	render: function() {
 		var self = this;
-		if (this.props.tasksFull === null) {
+		if (this.props.tasksVisible === null) {
 			return (<br />);
 		} else {
-			var pages = Math.ceil(this.props.tasksFull.length/this.props.perPage);
+			var pages = Math.ceil(this.props.tasksVisible.length/this.props.perPage);
 			if (pages <= 0 || !Util.Helpers.isInt(pages)) pages = 1;
 			return (
 				<div id="pagination">

@@ -20,11 +20,13 @@ var Canvas = React.createClass({
 	  return { 
 			accessToken: null,
 			user: null,
-			tasks: null,
-			tasksFull: null,
+			tasks: null, // displayed
+			tasksVisible: null, // displayed to tasks when visible is toggd on
+			tasksFull: null, // all tasks displayed to visible based on pagination
 			flashMessage: null,
 			page: 1,
-			perPage: 10
+			perPage: 10,
+			visibility: true
 		}
 	},
 
@@ -64,6 +66,7 @@ var Canvas = React.createClass({
 			function (tasksResponse) {
 				self.setState({
 					tasksFull: tasksResponse.tasks,
+					tasksVisible: tasksResponse.tasks,
 					tasks: tasksResponse.tasks
 				});
 				// list 1st page
@@ -116,11 +119,44 @@ var Canvas = React.createClass({
 	// -----
 	// updates state, shows only tasks on desired page
 	changePage: function(pageNo) {
+		// calc subarray representing given page
 		var sliceFrom = pageNo === 1 ? 0 : 0 + (pageNo - 1) * this.state.perPage;
 		var sliceTo = pageNo === 1 ? this.state.perPage : pageNo * this.state.perPage;
 		this.setState({
-			tasks: this.state.tasksFull.slice(sliceFrom, sliceTo),
+			tasks: this.state.tasksVisible.slice(sliceFrom, sliceTo),
 			page: pageNo
+		});
+	},
+
+	calcTasksVisible: function(pageNo, tasksBase) {
+		var sliceFrom = pageNo === 1 ? 0 : 0 + (pageNo - 1) * this.state.perPage;
+		var sliceTo = pageNo === 1 ? this.state.perPage : pageNo * this.state.perPage;
+		return tasksBase.slice(sliceFrom, sliceTo);
+	},
+
+	changeTasks: function(newTasks, newTasksVisible) {
+		this.setState({
+			tasks: newTasks,
+			tasksVisible: newTasksVisible
+		});
+	},
+
+	// toggle visibility of completely completed tasks
+	// -----
+	// set state and rerender
+	toggleVisibility: function() {
+		var notDoneTasks = [];
+		for (taskNo in this.state.tasksFull) {
+			if (!Util.Helpers.isTaskReallyCompleted(this.state.tasksFull[taskNo]))
+				notDoneTasks.push(this.state.tasksFull[taskNo]);
+		}
+		if (this.state.visibility) {
+			this.changeTasks(this.calcTasksVisible(this.state.page, notDoneTasks), notDoneTasks);
+		} else {
+			this.changeTasks(this.calcTasksVisible(this.state.page, this.state.tasksFull), this.state.tasksFull);
+		}
+		this.setState({
+			visibility: !this.state.visibility
 		});
 	},
 
@@ -131,7 +167,9 @@ var Canvas = React.createClass({
 		// flashMessage if there is one
 		if (this.state.flashMessage) {
 			flashMessage = (
-					<div className={this.state.flashMessage.type === "error" ? "red" : "green" }>{this.state.flashMessage.text}</div>
+					<div className={this.state.flashMessage.type === "error" ? "red" : "green" }>
+						{this.state.flashMessage.text}
+					</div>
 			);
 		}
 		if (this.state.accessToken !== null) {
@@ -139,11 +177,17 @@ var Canvas = React.createClass({
 			appContent = (
 				<div className="app-content" id="app-content">
 					<NewTaskForm accessToken={this.state.accessToken} onSubmit={this.loadTasks}/>
+					<div className="toggle-setting">
+    	  		<span className="task__toggle-button" title="Toggle visibility of completed tasks"
+							onClick={this.toggleVisibility}></span>
+					</div>
 					{ flashMessage }
 					<div className="app-content">
-						<TaskList tasks={ this.state.tasks } isSubTask={ false } onTaskDelete={ this.deleteTask } accessToken={ this.state.accessToken }/>
+						<TaskList tasks={ this.state.tasks } isSubTask={ false } onTaskDelete={ this.deleteTask }
+							loadTasks= { this.loadTasks } accessToken={ this.state.accessToken } visibility={ this.state.visibility }/>
 					</div>
-					<Pagination tasksFull={this.state.tasksFull} perPage={this.state.perPage} changePerPage={this.changePerPage} page={this.state.page} changePage={this.changePage} />
+					<Pagination tasksVisible={this.state.tasksVisible} perPage={this.state.perPage} changePerPage={this.changePerPage}
+						page={this.state.page} changePage={this.changePage} />
 				</div>
 			);
 		} else {
@@ -154,6 +198,10 @@ var Canvas = React.createClass({
 				</div>
 			);
 		}
+		console.log("visible: " + this.state.visibility);
+		console.log(this.state.tasksFull);
+		console.log(this.state.tasksVisible);
+		console.log(this.state.tasks);
 		return (
 			<div>
 				<div className="app-brand">To-Do App</div>

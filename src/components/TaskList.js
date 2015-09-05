@@ -5,6 +5,8 @@ var Util = require('./../Util');
 
 // TASK
 var Task = React.createClass({
+
+	// task-specific init state
 	getInitialState: function() {
 		return {
 			disabled: false
@@ -24,6 +26,8 @@ var Task = React.createClass({
 			function (data) {
 				// enable it back, everything went okay
 				self.setState({ disabled: false});
+				// refresh page up the chain
+				self.props.loadTasks();
 			},
 			function (e) {
 				self.setState({
@@ -39,8 +43,8 @@ var Task = React.createClass({
 	render: function() {
 		var subtasks;
 		if (this.props.taskData.hasOwnProperty('subtasks')) {
-			subtasks = <TaskList tasks={ this.props.taskData.subtasks } isSubTask={ true }
-				onTaskUpdate={ this.props.onUpdate } onTaskDelete={ this.props.onDelete } />
+			subtasks = <TaskList tasks={ this.props.taskData.subtasks } isSubTask={ true } loadTasks={ this.props.loadTasks }
+				onTaskUpdate={ this.props.onUpdate } onTaskDelete={ this.props.onDelete } accessToken={ this.props.accessToken }  />
 		}
 		// disabled hackity hack...
 		var checkbox = <input className="task__completed-checkbox" type="checkbox" defaultChecked={ this.props.taskData.completed }
@@ -78,7 +82,7 @@ var TaskList = React.createClass({
  				<ul className={ this.props.isSubTask ? "subtask-list" : "task-list" }>
 				{ this.props.tasks.map(function(task) {
       	    return <Task taskData={ task } key={ task.id } onUpdate={ self.props.onTaskUpdate } onDelete={ self.props.onTaskDelete }
-							accessToken={ self.props.accessToken } />;
+							loadTasks={ self.props.loadTasks }	accessToken={ self.props.accessToken } />;
       	})}
 				</ul>
 		);

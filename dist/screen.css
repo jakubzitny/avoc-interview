@@ -160,6 +160,22 @@ body {
   top: -1px;
 }
 
+.task__toggle-button {
+  display: inline-block;
+  vertical-align: top;
+  height: 20px;
+  width: 20px;
+  opacity: .3;
+  background-image: url('./eye.svg');
+  background-size: 100%;
+  cursor: pointer;
+}
+
+.task__toggle-button:hover,
+.task__toggle-button:focus {
+  opacity: 1;
+}
+
 .task__delete-button {
   display: inline-block;
   vertical-align: top;
@@ -206,4 +222,9 @@ body {
 
 .gray {
 	color: #ccc;
+}
+
+.toggle-setting {
+	text-align: center;
+	font-size: 11px;
 }
