@@ -24,6 +24,13 @@ Testing is done with jest, but could be much much better..
 npm test
 ```
 
+### Features
+- logging in
+- listing tasks, toggling, marking as completed, adding, deleting
+- pagination
+- toggling visibility of completed tasks (first level tasks, sounds reasonable, looks bit weird, but should be correct)
+- tests kinda
+
 ### What didn't work
 - originaly all POST and DELETE api requests didn't work, now seems to be okay (morning)
 - the subtask completion toggling still doesn't seem work on api side
