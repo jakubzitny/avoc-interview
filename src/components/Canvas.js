@@ -205,7 +205,7 @@ var Canvas = React.createClass({
 		return (
 			<div>
 				<div className="app-brand">To-Do App</div>
-				<UserInfo	onClick={this.login} user={this.state.user} />
+				<UserInfo onClick={this.login} user={this.state.user} />
 				{appContent}
 			</div>
 		);
