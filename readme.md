@@ -11,7 +11,7 @@ npm install
 npm start
 node server.js
 
-# open chrome with --disable-web-security flag
+# open chrome with --disable-web-security flag to hack CORS
 /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --disable-web-security & # on OS X 
 # and go to http://localhost:8080/index.html
 ```
