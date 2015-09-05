@@ -17,7 +17,7 @@ var Canvas = React.createClass({
 	// flashMessage is for displaying error messages when requests fail
 	// page, perPage is user-configurable pagination (not reflected on api)
 	getInitialState: function() {
-	  return { 
+		return { 
 			accessToken: null,
 			user: null,
 			tasks: null, // displayed
@@ -35,7 +35,7 @@ var Canvas = React.createClass({
 	// logs user in, updates state, and initiates task request
 	login: function() {
 		var self = this;
-		Util.ApiRequestor.getLogin(
+		Util.ApiRequestor.getLogin (
 			function (loginResponse) {
 				self.setState({
 					accessToken: loginResponse.token,
@@ -114,26 +114,25 @@ var Canvas = React.createClass({
 		});
 		this.loadTasks();
 	},
-
+	
 	// pagination: selects new page
 	// -----
 	// updates state, shows only tasks on desired page
 	changePage: function(pageNo) {
-		// calc subarray representing given page
-		var sliceFrom = pageNo === 1 ? 0 : 0 + (pageNo - 1) * this.state.perPage;
-		var sliceTo = pageNo === 1 ? this.state.perPage : pageNo * this.state.perPage;
 		this.setState({
-			tasks: this.state.tasksVisible.slice(sliceFrom, sliceTo),
+			tasks: this.calcTasksVisible(pageNo, this.state.tasksVisible),
 			page: pageNo
 		});
 	},
 
+	// calc subarray representing given page
 	calcTasksVisible: function(pageNo, tasksBase) {
 		var sliceFrom = pageNo === 1 ? 0 : 0 + (pageNo - 1) * this.state.perPage;
 		var sliceTo = pageNo === 1 ? this.state.perPage : pageNo * this.state.perPage;
 		return tasksBase.slice(sliceFrom, sliceTo);
 	},
-
+	
+	// changes tasks atomically
 	changeTasks: function(newTasks, newTasksVisible) {
 		this.setState({
 			tasks: newTasks,
@@ -167,9 +166,9 @@ var Canvas = React.createClass({
 		// flashMessage if there is one
 		if (this.state.flashMessage) {
 			flashMessage = (
-					<div className={this.state.flashMessage.type === "error" ? "red" : "green" }>
-						{this.state.flashMessage.text}
-					</div>
+				<div className={this.state.flashMessage.type === "error" ? "red" : "green" }>
+					{this.state.flashMessage.text}
+				</div>
 			);
 		}
 		if (this.state.accessToken !== null) {
@@ -178,7 +177,7 @@ var Canvas = React.createClass({
 				<div className="app-content" id="app-content">
 					<NewTaskForm accessToken={this.state.accessToken} onSubmit={this.loadTasks}/>
 					<div className="toggle-setting">
-    	  		<span className="task__toggle-button" title="Toggle visibility of completed tasks"
+						<span className="task__toggle-button" title="Toggle visibility of completed tasks"
 							onClick={this.toggleVisibility}></span>
 					</div>
 					{ flashMessage }
@@ -198,17 +197,18 @@ var Canvas = React.createClass({
 				</div>
 			);
 		}
-		console.log("visible: " + this.state.visibility);
-		console.log(this.state.tasksFull);
-		console.log(this.state.tasksVisible);
-		console.log(this.state.tasks);
+		// debug
+		//console.log("visible: " + this.state.visibility);
+		//console.log(this.state.tasksFull);
+		//console.log(this.state.tasksVisible);
+		//console.log(this.state.tasks);
 		return (
 			<div>
 				<div className="app-brand">To-Do App</div>
 				<UserInfo	onClick={this.login} user={this.state.user} />
 				{appContent}
 			</div>
-		)
+		);
 	}
 });
 

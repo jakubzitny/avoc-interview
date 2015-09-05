@@ -9,7 +9,7 @@ var UserInfo = React.createClass({
 			// display login link when no user is logged in
 			return (
 				<div className="user-info">
-			  	<span className="link" onClick={this.props.onClick} ref="userInfo">Login</span>
+					<span className="link" onClick={this.props.onClick} ref="userInfo">Login</span>
 				</div>
 			);
 		} else {

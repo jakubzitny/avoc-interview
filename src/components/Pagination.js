@@ -15,7 +15,7 @@ var Pagination = React.createClass({
 		if (entrdPage <= 0 || !Util.Helpers.isInt(entrdPage)) entrdPage = 10;
 		this.props.changePerPage(entrdPage);
 	},
-
+	
 	render: function() {
 		var self = this;
 		if (this.props.tasksVisible === null) {
@@ -28,8 +28,9 @@ var Pagination = React.createClass({
 					<input type="text" ref="perPage" onChange={ this.changePerPage } placeholder={ this.props.perPage + " per page" } />
 					<br />
 					{ Util.Helpers.range(pages).map(function(i) {
-    	  	    return <span className={ i === self.props.page ? 'pointer' : 'pointer gray' } onClick={ self.props.changePage.bind(null, i) } key={ i }>{ i } </span>
-    	  	})}
+						return <span className={ i === self.props.page ? 'pointer' : 'pointer gray' }
+							onClick={ self.props.changePage.bind(null, i) } key={ i }>{ i } </span>
+					})}
 				</div>
 			);
 		}

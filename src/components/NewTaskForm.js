@@ -30,15 +30,16 @@ var NewTaskForm = React.createClass({
 			}
 		);
 	},
-
+	
 	render: function() {
 		return (
-  		<form className="new-task-form" onSubmit={this.postTask}>
-  		  <input className="text-input new-task-form__label-input" type="text" name="label" placeholder="Label…" ref="label" />
-  		  <button className="button new-task-form__submit-button" type="submit">Add Task</button>
-  		</form>
+			<form className="new-task-form" onSubmit={this.postTask}>
+				<input className="text-input new-task-form__label-input" type="text" name="label" placeholder="Label…" ref="label" />
+				<button className="button new-task-form__submit-button" type="submit">Add Task</button>
+			</form>
 		);
 	}
+
 });
 
 module.exports = NewTaskForm;

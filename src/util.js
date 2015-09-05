@@ -56,7 +56,6 @@ var Util = (function() {
 				success: success, error: error,
 			});
 		}
-		
 	};
 
 	// Helpers
@@ -66,12 +65,12 @@ var Util = (function() {
 
 		// return true if value is int
 		isInt: function (value) {
-  		var x = parseFloat(value);
-  		return !isNaN(value) && (x | 0) === x;
+			var x = parseFloat(value);
+			return !isNaN(value) && (x | 0) === x;
 		},
 
 		// generate Array of range 0 to i
- 		// thx to http://stackoverflow.com/a/6299743/1893452
+		// thx to http://stackoverflow.com/a/6299743/1893452
 		range: function(i) {
 			return i ? this.range(i-1).concat(i) : [ ]
 		},
