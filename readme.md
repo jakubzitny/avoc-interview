@@ -27,6 +27,7 @@ npm test
 ### Features
 - logging in
 - listing tasks, toggling, marking as completed, adding, deleting
+- during marking task as completed, toggling is disabled until it is saved on the server
 - pagination
 - toggling visibility of completed tasks (first level tasks, sounds reasonable, looks bit weird, but should be correct)
 - tests kinda
