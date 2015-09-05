@@ -1,13 +1,11 @@
 /** @jsx React.DOM */
 
 var React = require('react/addons');
-
 var LoginButton = require('./LoginButton');
 var UserInfo = require('./UserInfo');
 var TaskList = require('./TaskList');
 var NewTaskForm = require('./NewTaskForm');
 var Pagination = require('./Pagination');
-
 var Util = require('./../Util');
 
 // CANVAS
@@ -104,28 +102,6 @@ var Canvas = React.createClass({
 		);
 	},
 
-	// update task
-	// -----
-	// toggles task's completion state
-	updateTask: function(task) {
-		var self = this;
-		Util.ApiRequestor.updateTask(
-			task,
-			this.state.accessToken,
-			function () {
-				// TODO: implement disabling
-			},
-			function (e) {
-				self.setState({
-					flashMessage: {
-						type: "error",
-						text: "problem with updating task (" + e.status + ")"
-					}
-				});
-			}
-		);
-	},
-
 	// pagination: changes number of tasks per page
 	// -----
 	// updates state and reloads tasks based on new pagination
@@ -165,7 +141,7 @@ var Canvas = React.createClass({
 					<NewTaskForm accessToken={this.state.accessToken} onSubmit={this.loadTasks}/>
 					{ flashMessage }
 					<div className="app-content">
-						<TaskList tasks={this.state.tasks} isSubTask={false} onTaskUpdate={this.updateTask} onTaskDelete={this.deleteTask}/>
+						<TaskList tasks={ this.state.tasks } isSubTask={ false } onTaskDelete={ this.deleteTask } accessToken={ this.state.accessToken }/>
 					</div>
 					<Pagination tasksFull={this.state.tasksFull} perPage={this.state.perPage} changePerPage={this.changePerPage} page={this.state.page} changePage={this.changePage} />
 				</div>
