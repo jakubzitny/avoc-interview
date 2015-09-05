@@ -2,7 +2,7 @@
   "name": "todo-avoc",
   "author": "Jakub Zitny <jzitny@oldanygroup.cz>",
   "scripts": {
-    "start": "browserify ./src/main.js -t reactify -o ./dist/main.js",
+    "start": "browserify --full-paths ./src/main.js -t reactify -o ./dist/main.js",
     "test": "karma start karma.conf.js",
     "test:watch": "karma start karma.conf.js --no-single-run",
    	"testj": "jest"

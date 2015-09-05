@@ -9,11 +9,13 @@ var Pagination = React.createClass({
 	},
 	range: function(i){
  		// thx to http://stackoverflow.com/a/6299743/1893452
-		if (!this.isInt(i)) i = this.props.perPage;
+		//if (!this.isInt(i)) i = this.props.perPage;
 		return i ? this.range(i-1).concat(i) : [ ]
 	},
 	changePerPage: function() {
-		this.props.changePerPage(React.findDOMNode(this.refs.perPage).value);
+		var entrdPage = React.findDOMNode(this.refs.perPage).value;
+		if (!this.isInt(entrdPage)) i = 10;
+		this.props.changePerPage(entrdPage);
 	},
 	render: function() {
 		var self = this;

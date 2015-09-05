@@ -128,7 +128,6 @@ var Canvas = React.createClass({
 	changePage: function(pageNo, perPage) {
 		var sliceFrom = pageNo === 1 ? 0 : 0 + (pageNo - 1) * perPage;
 		var sliceTo = pageNo === 1 ? perPage : pageNo * perPage;
-		console.log("sliceFrom: " + sliceFrom + " sliceTo: " + sliceTo);
 		this.setState({
 			tasks: this.state.tasksFull.slice(sliceFrom, sliceTo),
 			page: pageNo
