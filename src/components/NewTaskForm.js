@@ -2,25 +2,25 @@
 
 var React = require('react/addons');
 
-var API_URL = "http://avcd-todo-api.herokuapp.com";
-var API_KEY = "avcd-todo-app-a1b3d6";
+var Util = require('./../Util');
 
 // NEW TASK FORM
 var NewTaskForm = React.createClass({
+
+	// creates new task
+	// -----
+	// processes form, posts the data to api, reloads tasks (onSubmit)
 	postTask: function(e) {
 		e.preventDefault();
-		var taskLabel = React.findDOMNode(this.refs.label).value.trim();
-		var tasksPoint = API_URL + "/tasks" + "?api_key="+API_KEY+"&access_token="+this.props.token;
 		var self = this;
-		$.ajax({
-			url: tasksPoint,
-			type: 'POST',
-			data: { "label": taskLabel },
-			success: function(data){ 
-				console.log("yayy it works");
-				console.log(data);
+		var taskLabel = React.findDOMNode(this.refs.label).value.trim();
+		Util.ApiRequestor.postTask(
+			taskLabel,
+			this.props.accessToken,
+			function () { // on success
+				self.props.onSubmit();
 			},
-			error: function(e) {
+			function (e) { // on error
 				self.setState({
 					flashMessage: {
 						type: "error",
@@ -28,9 +28,9 @@ var NewTaskForm = React.createClass({
 					}
 				});
 			}
-		});
-		this.props.onSubmit();
+		);
 	},
+
 	render: function() {
 		return (
   		<form className="new-task-form" onSubmit={this.postTask}>
