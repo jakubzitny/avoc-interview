@@ -1,6 +1,12 @@
+var $ = require('jquery');
+
 var Util = (function() {
 	var API_URL = "http://avcd-todo-api.herokuapp.com";
 	var API_KEY = "avcd-todo-app-a1b3d6";
+
+	var HTTP_GET = 'GET';
+	var HTTP_POST = 'POST';
+	var HTTP_DELETE = 'DELETE';
 
 	// ApiRequestor
 	// -----
@@ -10,14 +16,14 @@ var Util = (function() {
 		getLogin: function(success, error) {
 			var loginPoint = API_URL + "/login" +
 				"?api_key=" + API_KEY;
-			this.request(loginPoint, 'GET', null, success, error);
+			this.request(loginPoint, HTTP_GET, null, success, error);
 		},
 		// GET /tasks
 		getTasks: function(accessToken, success, error) {
 			var tasksPoint = API_URL + "/tasks" +
 				"?api_key=" + API_KEY +
 				"&access_token=" + accessToken;
-			this.request(tasksPoint, 'GET', null, success, error);
+			this.request(tasksPoint, HTTP_GET, null, success, error);
 		},
 		// DELETE /tasks/:id
 		deleteTask: function(taskId, accessToken, success, error) {
@@ -25,7 +31,7 @@ var Util = (function() {
 				"/" + taskId +
 				"?api_key=" + API_KEY + 
 				"&access_token=" + accessToken;
-			this.request(taskPoint, 'DELETE', null, success, error);
+			this.request(taskPoint, HTTP_DELETE, null, success, error);
 		},
 		// POST /tasks
 		postTask: function(taskLabel, accessToken, success, error) {
@@ -33,7 +39,7 @@ var Util = (function() {
 				"?api_key=" + API_KEY +
 				"&access_token=" + accessToken;
 			var data = { "label": taskLabel };
-			this.request(tasksPoint, 'POST', data, success, error);
+			this.request(tasksPoint, HTTP_POST, data, success, error);
 		},
 		// POST /tasks/:id
 		updateTask: function(task, accessToken, success, error) {
@@ -42,7 +48,7 @@ var Util = (function() {
 				"?api_key=" + API_KEY + 
 				"&access_token=" + accessToken;
 			var data = { completed: !task.completed };
-			this.request(taskPoint, 'POST', data, success, error);
+			this.request(taskPoint, HTTP_POST, data, success, error);
 		},
 		// general request
 		request: function(url, type, data, success, error) {
@@ -70,7 +76,7 @@ var Util = (function() {
 			return i ? this.range(i-1).concat(i) : [ ]
 		},
 
-		// TODO: comment
+		// determines whether given task and all its subtasks are completed
 		isTaskReallyCompleted: function (task) {
 			if (task.completed) {
 				for (subtaskNo in task.subtasks) {

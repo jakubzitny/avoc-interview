@@ -1,17 +1,19 @@
 {
-  "name": "todo-avoc",
+  "name": "avoc-interview",
   "author": "Jakub Zitny <jzitny@oldanygroup.cz>",
+	"license": "WTFPL",
   "scripts": {
     "start": "browserify ./src/main.js -t reactify -o ./dist/main.js",
-    "test": "karma start karma.conf.js",
-    "test:watch": "karma start karma.conf.js --no-single-run",
-   	"testj": "jest"
+    "test-kar": "karma start karma.conf.js",
+    "test-kar:watch": "karma start karma.conf.js --no-single-run",
+   	"test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/TYRONEMICHAEL/react-browserify-boilerplate.git"
+    "url": "https://github.com/jakubzitny/avoc-interview.git"
   },
   "dependencies": {
+		"jest-cli": "0.5.0",
     "jquery": "^2.1.1",
     "react": "^0.13.3",
     "browserify": "^9.0.3",
