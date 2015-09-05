@@ -22,9 +22,6 @@ var NewTaskForm = React.createClass({
 			},
 			error: function(e) {
 				self.setState({
-					accessToken: self.state.accessToken,
-					user: self.state.user,
-					tasks: self.state.tasks,
 					flashMessage: {
 						type: "error",
 						text: "problem with uploading task (" + e.status + ")"

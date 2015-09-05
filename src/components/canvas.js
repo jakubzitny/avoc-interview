@@ -9,6 +9,7 @@ var LoginButton = require('./LoginButton');
 var UserInfo = require('./UserInfo');
 var TaskList = require('./TaskList');
 var NewTaskForm = require('./NewTaskForm');
+var Pagination = require('./Pagination');
 
 // CANVAS
 var Canvas = React.createClass({
@@ -17,7 +18,10 @@ var Canvas = React.createClass({
 			accessToken: null,
 			user: null,
 			tasks: null,
-			flashMessage: null
+			tasksFull: null,
+			flashMessage: null,
+			page: 1,
+			perPage: 10
 		}
 	},
 	updateTasks: function() {
@@ -28,16 +32,13 @@ var Canvas = React.createClass({
 			type: 'GET',
 			success: function(tasksResponse){ 
 				self.setState({
-					accessToken: self.state.accessToken,
-					user: self.state.user,
+					tasksFull: tasksResponse.tasks,
 					tasks: tasksResponse.tasks
 				});
+				self.changePage(1, self.state.perPage);
 			},
 			error: function(e) {
 				self.setState({
-					accessToken: self.state.accessToken,
-					user: self.state.user,
-					tasks: self.state.tasks,
 					flashMessage: {
 						type: "error",
 						text: "problem with downloading tasks (" + e.status + ")"
@@ -45,6 +46,7 @@ var Canvas = React.createClass({
 				});
 			}
 		});
+		// list 1st page
 	},
 	handleLogin: function(data) {
 		var self = this;
@@ -53,11 +55,9 @@ var Canvas = React.createClass({
 		this.setState({
 			accessToken: data.token,
 			user: data.user,
-			tasks: null
 		});
 		// request tasks to display
 		this.updateTasks();
-		
 	},
 	requestLogin: function() {
 		var loginPoint = API_URL + "/login" + "?api_key="+API_KEY;
@@ -70,9 +70,6 @@ var Canvas = React.createClass({
 			},
 			error: function(e) {
 				self.setState({
-					accessToken: self.state.accessToken,
-					user: self.state.user,
-					tasks: self.state.tasks,
 					flashMessage: {
 						type: "error",
 						text: "problem with logging in (" + e.status + ")"
@@ -91,13 +88,10 @@ var Canvas = React.createClass({
 			url: taskPoint,
 			type: 'DELETE',
 			success: function(tasksResponse){ 
-				console.log("it works as well yo");
+				self.updateTasks();
 			},
 			error: function(e) {
 				self.setState({
-					accessToken: self.state.accessToken,
-					user: self.state.user,
-					tasks: self.state.tasks,
 					flashMessage: {
 						type: "error",
 						text: "problem with deleting task (" + e.status + ")"
@@ -114,19 +108,30 @@ var Canvas = React.createClass({
 			type: 'POST',
 			data: { completed: !task.completed },
 			success: function(tasksResponse){ 
-				console.log("it works....");
+				//console.log("it works....");
 			},
 			error: function(e) {
 				self.setState({
-					accessToken: self.state.accessToken,
-					user: self.state.user,
-					tasks: self.state.tasks,
 					flashMessage: {
 						type: "error",
 						text: "problem with updating task (" + e.status + ")"
 					}
 				});
 			}
+		});
+	},
+	changePerPage: function(perPage) {
+		this.setState({
+			perPage: perPage
+		});
+	},
+	changePage: function(pageNo, perPage) {
+		var sliceFrom = pageNo === 1 ? 0 : 0 + (pageNo - 1) * perPage;
+		var sliceTo = pageNo === 1 ? perPage : pageNo * perPage;
+		console.log("sliceFrom: " + sliceFrom + " sliceTo: " + sliceTo);
+		this.setState({
+			tasks: this.state.tasksFull.slice(sliceFrom, sliceTo),
+			page: pageNo
 		});
 	},
 	render: function() {
@@ -144,6 +149,7 @@ var Canvas = React.createClass({
 					<div className="app-content">
 						<TaskList tasks={this.state.tasks} isSubTask={false} onTaskCheckBox={this.onTaskCheckBox} onTaskDelete={this.onTaskDelete}/>
 					</div>
+					<Pagination tasksFull={this.state.tasksFull} perPage={this.state.perPage} changePerPage={this.changePerPage} page={this.state.page} changePage={this.changePage} />
 				</div>
 			);
 		} else {
