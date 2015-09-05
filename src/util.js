@@ -10,24 +10,14 @@ var Util = (function() {
 		getLogin: function(success, error) {
 			var loginPoint = API_URL + "/login" +
 				"?api_key=" + API_KEY;
-			$.ajax({
-				url: loginPoint,
-				type: 'GET',
-				success: success,
-				error: error,
-			});
+			this.request(loginPoint, 'GET', null, success, error);
 		},
 		// GET /tasks
 		getTasks: function(accessToken, success, error) {
 			var tasksPoint = API_URL + "/tasks" +
 				"?api_key=" + API_KEY +
 				"&access_token=" + accessToken;
-			$.ajax({
-				url: tasksPoint,
-				type: 'GET',
-				success: success,
-				error: error,
-			});
+			this.request(tasksPoint, 'GET', null, success, error);
 		},
 		// DELETE /tasks/:id
 		deleteTask: function(taskId, accessToken, success, error) {
@@ -35,25 +25,15 @@ var Util = (function() {
 				"/" + taskId +
 				"?api_key=" + API_KEY + 
 				"&access_token=" + accessToken;
-			$.ajax({
-				url: taskPoint,
-				type: 'DELETE',
-				success: success,
-				error: error,
-			});
+			this.request(taskPoint, 'DELETE', null, success, error);
 		},
 		// POST /tasks
 		postTask: function(taskLabel, accessToken, success, error) {
 			var tasksPoint = API_URL + "/tasks" +
 				"?api_key=" + API_KEY +
 				"&access_token=" + accessToken;
-			$.ajax({
-				url: tasksPoint,
-				type: 'POST',
-				data: { "label": taskLabel },
-				success: success,
-				error: error,
-			});
+			var data = { "label": taskLabel };
+			this.request(tasksPoint, 'POST', data, success, error);
 		},
 		// POST /tasks/:id
 		updateTask: function(task, accessToken, success, error) {
@@ -61,12 +41,13 @@ var Util = (function() {
 				"/" + task.id +
 				"?api_key=" + API_KEY + 
 				"&access_token=" + accessToken;
-			$.ajax({
-				url: taskPoint,
-				type: 'POST',
-				data: { completed: !task.completed },
-				success: success,
-				error: error,
+			var data = { completed: !task.completed };
+			this.request(taskPoint, 'POST', data, success, error);
+		},
+		// general request
+		request: function(url, type, data, success, error) {
+			$.ajax({ url: url, type: type, data: data,
+				success: success, error: error,
 			});
 		}
 		
