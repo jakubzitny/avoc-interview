@@ -14,7 +14,6 @@ var Pagination = React.createClass({
 	},
 	changePerPage: function() {
 		var entrdPage = React.findDOMNode(this.refs.perPage).value;
-		if (!this.isInt(entrdPage)) i = 10;
 		this.props.changePerPage(entrdPage);
 	},
 	render: function() {
@@ -22,6 +21,7 @@ var Pagination = React.createClass({
 		if (this.props.tasksFull === null) return (<br />);
 		else {
 			var pages = Math.ceil(this.props.tasksFull.length/this.props.perPage); // TODO: check
+			if (pages <= 0 || !this.isInt(pages)) pages = 1;
 			return (
 				<div id="pagination">
 					<input type="text" ref="perPage" onChange={this.changePerPage} placeholder={this.props.perPage + " per page"} />

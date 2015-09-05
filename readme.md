@@ -1,9 +1,9 @@
->> Please hire me << TODO app
+"Please hire me" TODO app
 ========
 
-- ``git clone this repo``
+- ``git clone git@github.com:jakubzitny/avoc-interview.git``
 - ``cd avoc-interview``
 - ``npm install``
-- ``npm compile``
+- ``npm start``
 - ``node server.js``
 - go to ``http://localhost:8080/index.html``
