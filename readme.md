@@ -1,6 +1,8 @@
 "Please hire me" TODO app
 ========
 
+- compatible with [iojs 3.3.0+](https://iojs.org/en)
+
 ### Get it running
 
 ```bash
